@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AmountTextField extends StatelessWidget {
-  final String label;
+  final String? label;
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
   final bool readOnly;
@@ -15,7 +15,7 @@ class AmountTextField extends StatelessWidget {
 
   const AmountTextField({
     super.key,
-    required this.label,
+    this.label,
     required this.controller,
     this.onChanged,
     this.readOnly = false,
@@ -34,8 +34,8 @@ class AmountTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
+        if (label != null) Text(
+          label!,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.hintColor,
             fontWeight: FontWeight.w500,
@@ -45,48 +45,37 @@ class AmountTextField extends StatelessWidget {
         TextField(
           key: textFieldKey,
           controller: controller,
+          
           style: amountStyle ?? theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
           decoration: InputDecoration(
             hintText: hintText ?? '0.00',
+          
             hintStyle: theme.textTheme.headlineSmall?.copyWith(
               color: theme.hintColor.withOpacity(0.5),
               fontWeight: FontWeight.bold,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                // ignore: deprecated_member_use
-            color: theme.dividerColor.withOpacity(0.5),
-              ),
+             
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                // ignore: deprecated_member_use
-            color: theme.dividerColor.withOpacity(0.5),
-              ),
-            ),
+            // enabledBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(12),
+             
+            // ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2,
-              ),
-            ),
+              borderSide: BorderSide(color: Color(0xFF1F2261)
+            
+            ),),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: theme.colorScheme.error,
-              ),
+             
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: theme.colorScheme.error,
-                width: 2,
-              ),
+            
             ),
             errorText: errorText,
             errorStyle: theme.textTheme.bodySmall?.copyWith(
@@ -94,11 +83,11 @@ class AmountTextField extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
-              vertical: 14,
+              vertical: 18,
             ),
             isDense: true,
           ),
-          keyboardType: keyboardType ?? const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: inputFormatters ?? [
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
           ],

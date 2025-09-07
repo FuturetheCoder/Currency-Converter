@@ -22,33 +22,25 @@ class CurrencyDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return DropdownButtonFormField<Currency>(
+    isDense: false,
+
       initialValue: selectedCurrency,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            // ignore: deprecated_member_use
-            color: theme.dividerColor.withOpacity(0.5),
-          ),
-        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
             // ignore: deprecated_member_use
-            color: theme.dividerColor.withOpacity(0.5),
+            color: Colors.transparent,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: theme.colorScheme.primary,
-            width: 2,
-          ),
+          borderSide: BorderSide(color: Colors.transparent, width: 2),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        isDense: true,
+        
       ),
       icon: isLoading
           ? const SizedBox(
@@ -64,38 +56,47 @@ class CurrencyDropdown extends StatelessWidget {
             children: [
               // Display currency flag
               if (currency.flagUrl.endsWith('.svg'))
-                SvgPicture.network(
-                  currency.flagUrl,
-                  width: 24,
-                  height: 24,
-                  placeholderBuilder: (context) => Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.grey[200],
+                ClipOval(
+                  child: SvgPicture.network(
+                    currency.flagUrl,
+                    width: 25,
+                    height: 80,
+                    placeholderBuilder: (context) => Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.grey[200],
+                    ),
                   ),
                 )
               else
-                CachedNetworkImage(
-                  imageUrl: currency.flagUrl,
-                  width: 24,
-                  height: 24,
-                  placeholder: (context, url) => Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.grey[200],
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    width: 24,
-                    height: 24,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.flag, size: 20),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: currency.flagUrl,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+
+                    placeholder: (context, url) => Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.grey[200],
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      width: 24,
+                      height: 24,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.flag, size: 20),
+                    ),
                   ),
                 ),
+
               const SizedBox(width: 8),
               Text(
                 currency.code,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
+                  color: Color(0xFF26278D),
+                  fontSize: 16,
                 ),
               ),
             ],
